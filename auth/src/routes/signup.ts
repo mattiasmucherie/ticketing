@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { ExistingEmailError } from "../errors/existing-email-errors";
+import jwt from "jsonwebtoken";
 
+import { ExistingEmailError } from "../errors/existing-email-errors";
 import { RequestValidationError } from "../errors/request-validation-error";
 import { User } from "../models/user";
 
@@ -28,6 +29,18 @@ router.post(
     }
     const user = User.build({ email, password });
     await user.save();
+
+    // Generate JWT
+    const userJwt = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      process.env.JWT_KEY!
+    );
+    // store it on session object
+    req.session = { jwt: userJwt };
+
     res.status(201).send(user);
   }
 );
