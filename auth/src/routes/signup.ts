@@ -1,9 +1,8 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
+import { ExistingEmailError, validateRequest } from "@mm-tickets/common";
 
-import { ExistingEmailError } from "../errors/existing-email-errors";
-import { validateRequest } from "../middlewares/validate-request";
 import { User } from "../models/user";
 
 const router = express.Router();

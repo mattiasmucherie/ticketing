@@ -2,11 +2,11 @@ import express from "express";
 import "express-async-errors";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
+import { NotFoundError, errorHandler } from "@mm-tickets/common";
+
 import { signinRouter } from "./routes/signin";
 import { signupRouter } from "./routes/signup";
 import { signoutRouter } from "./routes/signout";
-import { errorHandler } from "./middlewares/error-handler";
-import { NotFoundError } from "./errors/not-found-error";
 import { currentUserRouter } from "./routes/current-user";
 
 const app = express();
