@@ -5,14 +5,17 @@ interface UseRequestProps {
   url: string;
   method: "get" | "post" | "patch";
   body?: {};
+  onSuccess?: (s?: any) => void;
 }
 
-const useRequest = ({ url, method, body }: UseRequestProps) => {
+const useRequest = ({ url, method, body, onSuccess }: UseRequestProps) => {
   const [errors, setErrors] = useState<JSX.Element | null>(null);
 
   const doRequest = async () => {
     try {
+      setErrors(null);
       const response = await axios[method](url, body);
+      if (onSuccess) onSuccess(response.data);
       return response.data;
     } catch (err) {
       setErrors(
