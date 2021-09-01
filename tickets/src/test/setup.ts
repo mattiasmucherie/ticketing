@@ -7,9 +7,11 @@ import request from "supertest";
 declare global {
   var signin: () => string[];
 }
+jest.mock("../nats-wrapper");
 
 let mongo: MongoMemoryServer;
 beforeAll(async () => {
+  jest.clearAllMocks();
   process.env.JWT_KEY = "this is not the secret...";
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
